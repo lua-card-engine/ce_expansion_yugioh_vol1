@@ -82,7 +82,7 @@ jobs:
           echo "" >> TEXTURE_URLS.md
           echo "Expansion: \`${EXPANSION_NAME}\`" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
-          echo "Base URL: \`{{ EXPANSION_REMOTE_URL }}/card_engine/expansions/${EXPANSION_NAME}/\`" >> TEXTURE_URLS.md
+          echo "Base URL: \`https://card-engine-r2.luttonline.nl/card_engine/expansions/${EXPANSION_NAME}/\`" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
           echo "## Available Textures" >> TEXTURE_URLS.md
           echo "" >> TEXTURE_URLS.md
