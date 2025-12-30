@@ -1,15 +1,17 @@
 {
     "name": "ce_expansion_tools",
     "version": "0.1.0",
-    "description": "Tools for {{ EXPANSION_ID }} expansion pack",
+    "description": "Tools for ce_expansion_yugioh_vol1 expansion pack",
     "main": "index.js",
     "type": "module",
     "scripts": {
         "setup": "node setup.js",
+        "download": "node download.js 1999-02-04 1999-02-04 ocg vol1",
         "convert": "node convert.js",
+        "process": "node process.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "png-to-vtf": "^0.2.0"
+        "png-to-vtf": "^0.3.0"
     }
 }

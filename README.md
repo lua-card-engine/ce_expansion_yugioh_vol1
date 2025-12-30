@@ -65,13 +65,11 @@ Additionally, add this variable to the repository, to specify the expansion subf
 
 ## 🛠️ Tools
 
-This expansion set comes with a handy tool to convert `.png` card designs into the required `.vtf` format for use in Garry's Mod.
+This expansion set comes with a handy tool to convert `.png` card designs into the required `.vtf` format for use in Garry's Mod. And to download and properly resize card images from the [Yu-Gi-Oh! Pro Deck API](https://ygoprodeck.com/api-guide/).
 
-### PNG to VTF Converter
+For all these tools you must:
 
-To convert your `.png` card designs to `.vtf`, follow these steps:
-
-1. Open a terminal or command prompt.
+1. Open a terminal or command prompt in the repository root folder.
 
 2. Navigate to the [`tools/`](tools/) directory of this repository:
 
@@ -85,8 +83,42 @@ To convert your `.png` card designs to `.vtf`, follow these steps:
     npm install
     ```
 
-4. To convert all `.png` files in the `design/` folder to `.vtf` format in the `materials/card_engine/expansions/ce_expansion_yugioh_vol1` folder, run the following command:
+### `db.ygoprodeck.com/api/v7/` Downloader
+
+To download a card images from the [Yu-Gi-Oh! Pro Deck API](https://ygoprodeck.com/api-guide/), you can use the provided `download.js` script located in the [`tools/`](tools/) directory.
+
+1. Run the downloader script with Node.js, specifying the date range, date region (ocg/tcg), and the set code to use when naming the files. For example, to download all cards from February 4, 1999, in the OCG region and name it the "vol1" set, use the following command:
+
+    ```bash
+    node download.js 1999-02-04 1999-02-04 ocg vol1
+    ```
+
+2. The script will download the card images and save them as `.png` files in the `design/unprocessed` folder.
+
+### Process Images
+
+To process and resize the downloaded card images to fit the required dimensions for CardEngine, follow these steps:
+
+1. Run the image processing script with Node.js:
+
+    ```bash
+    npm run process
+    ```
+
+2. The script will resize the images and save them in the `design/processed/` folder, ready for conversion to `.vtf`.
+
+### PNG to VTF Converter
+
+To convert your `.png` card designs to `.vtf`, follow these steps:
+
+1. To convert all `.png` files in the `design/processed/` folder to `.vtf` format in the `materials/card_engine/expansions/ce_expansion_yugioh_vol1` folder, run the following command:
 
     ```bash
     npm run convert
     ```
+
+## 📄 License
+
+The code in this repository is licensed under the [MIT License](LICENSE).
+
+The card designs, artwork and card data are the property of their respective owners and are used here for educational and non-commercial purposes only. Please respect the intellectual property rights of the original creators.

@@ -22,15 +22,15 @@ hook.Add(
 
 			-- Define which attributes should appear as filters in the collection menu
 			FilterableAttributes = {
-				Supertype = {
-					Name = "collection_filter_supertype",
-					AttributeName = "Supertype",
+				HumanReadableCardType = {
+					Name = "collection_filter_card_type",
+					AttributeName = "Card Type",
 					IsArray = false,
 				},
-				Rarity = {
-					Name = "collection_filter_rarity",
-					AttributeName = "Rarity",
-					IsArray = false,
+				Typeline = {
+					Name = "collection_filter_typeline",
+					AttributeName = "Typeline",
+					IsArray = true,
 				},
 			},
 		})
