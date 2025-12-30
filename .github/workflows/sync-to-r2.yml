@@ -1,0 +1,119 @@
+name: Sync Textures to Cloudflare R2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "materials/**"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Pull Git LFS files
+        run: |
+          git lfs pull
+
+      - name: Install Rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure Rclone for Cloudflare R2
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${R2_ACCESS_KEY_ID}
+          secret_access_key = ${R2_SECRET_ACCESS_KEY}
+          endpoint = https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
+          acl = public-read
+          EOF
+
+      - name: Detect expansion folder
+        id: detect
+        run: |
+          expansion_folder=$(find materials/card_engine/expansions -mindepth 1 -maxdepth 1 -type d | head -n 1)
+
+          if [ -z "$expansion_folder" ]; then
+            echo "Error: No expansion folder found in materials/card_engine/expansions/"
+            exit 1
+          fi
+
+          expansion_name=$(basename "$expansion_folder")
+          echo "expansion_name=$expansion_name" >> $GITHUB_OUTPUT
+          echo "expansion_folder=$expansion_folder" >> $GITHUB_OUTPUT
+          echo "Found expansion: $expansion_name"
+
+      - name: Sync expansion to R2
+        env:
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
+        run: |
+          rclone sync ${EXPANSION_FOLDER}/ r2:${R2_BUCKET_NAME}/card_engine/expansions/${EXPANSION_NAME}/ \
+            --progress \
+            --transfers 8 \
+            --checkers 16 \
+            --fast-list \
+            --s3-upload-concurrency 8 \
+            --log-level INFO
+
+      - name: Generate texture manifest
+        env:
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
+        run: |
+          echo "# Texture CDN URLs" > TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "Expansion: \`${EXPANSION_NAME}\`" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "Base URL: \`{{ EXPANSION_REMOTE_URL }}/card_engine/expansions/${EXPANSION_NAME}/\`" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+          echo "## Available Textures" >> TEXTURE_URLS.md
+          echo "" >> TEXTURE_URLS.md
+
+          find ${EXPANSION_FOLDER} -type f -name "*.vtf" | sort | while read file; do
+            path="${file#${EXPANSION_FOLDER}/}"
+            echo "- \`${path}\`" >> TEXTURE_URLS.md
+          done
+
+          echo "" >> TEXTURE_URLS.md
+          echo "---" >> TEXTURE_URLS.md
+          echo "Last updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> TEXTURE_URLS.md
+
+      - name: Upload manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: texture-manifest
+          path: TEXTURE_URLS.md
+
+      - name: Summary
+        env:
+          EXPANSION_NAME: ${{ steps.detect.outputs.expansion_name }}
+          EXPANSION_FOLDER: ${{ steps.detect.outputs.expansion_folder }}
+        run: |
+          total=$(find ${EXPANSION_FOLDER} -type f -name "*.vtf" | wc -l)
+          size=$(du -sh ${EXPANSION_FOLDER} | cut -f1)
+
+          echo "### 🚀 Texture Sync Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Expansion**: ${EXPANSION_NAME}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total textures**: ${total}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total size**: ${size}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All textures successfully synced to Cloudflare R2" >> $GITHUB_STEP_SUMMARY

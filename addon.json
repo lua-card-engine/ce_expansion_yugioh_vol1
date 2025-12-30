@@ -1,0 +1,26 @@
+{
+    "title": "CardEngine Expansion Pack: Garry's Mod Base Set",
+    "type": "ServerContent",
+    "tags": [
+        "fun",
+        "comic"
+    ],
+    "description": "Content and code for the CardEngine Expansion Pack: Garry's Mod Base Set.",
+    "ignore": [
+        ".git/*",
+        ".github/*",
+        ".vscode/*",
+        "design/*",
+        "docs/*",
+        "tools/*",
+        "modelsrc/*",
+        "lua/*",
+        ".gitignore",
+        ".editorconfig",
+        "*.sw.vtx",
+        "*.pdn",
+        "*.fgd",
+        "LICENSE",
+        "README.md"
+    ]
+}
