@@ -2,6 +2,10 @@
 
 This repository contains the Yu-Gi-Oh Vol 1 Base Expansion Set for the yet to be released CardEngine, a comprehensive collectible card framework for Garry's Mod. This expansion set introduces a variety of cards for players to collect and trade.
 
+> [!WARNING]
+> This expansion only serves as an example of how to download and prepare cards for CardEngine. It is incomplete, such as missing holographic effects for all cards.
+> We do not provide support for this expansion and it should not serve as a reason to purchase CardEngine.
+
 ## 🚀 Usage
 
 To use this expansion set in your Garry's Mod server, follow these steps:
