@@ -6,6 +6,13 @@ return {
 	["expansion_set_ce_expansion_yugioh_vol1"] = "Yu-Gi-Oh! 1999-02-04 to 1999-02-04 (OCG)",
 
 	--[[
+        Filters
+	--]]
+
+	["collection_filter_card_type"] = "Card Type",
+	["collection_filter_typeline"] = "Typeline",
+
+	--[[
         Cards
     --]]
 	["ce_expansion_yugioh_vol1_archfiend_marmot_of_nefariousness"] = "Archfiend Marmot of Nefariousness",
