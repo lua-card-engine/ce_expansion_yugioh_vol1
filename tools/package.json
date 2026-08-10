@@ -9,6 +9,7 @@
         "download": "node download.js 1999-02-04 1999-02-04 ocg vol1",
         "convert": "node convert.js",
         "process": "node process.js",
+        "concat-cards": "node concat_cards.js ../lua/ce_expansion_yugioh_vol1/cards",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
