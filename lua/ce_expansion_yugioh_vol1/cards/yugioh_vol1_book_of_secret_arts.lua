@@ -6,6 +6,7 @@ CARD.RearTexture = "card_engine/expansions/ce_expansion_yugioh_vol1/back"
 CARD.CardSize = CardEngine.DEFAULT_CARD_MODELS.JAPANESE_ROUNDED
 CARD.Attributes = {
 	Id = 91595718,
+	Rarity = "Rare",
 	Type = "Spell Card",
 	HumanReadableCardType = "Equip Spell",
 	FrameType = "spell",

@@ -8,6 +8,7 @@ CARD.HolographicStrength = Vector(1, 1, 1)
 CARD.HolographicTexture = "card_engine/holo_rainbow_strong"
 CARD.Attributes = {
 	Id = 6368038,
+	Rarity = "Ultra Rare",
 	Typeline = {
 		"Warrior",
 		"Normal"
