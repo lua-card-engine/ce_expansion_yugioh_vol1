@@ -3,11 +3,11 @@ CardEngine.ExpansionSets = CardEngine.ExpansionSets or {}
 CardEngine.ExpansionSets.YugiohVol1 = CardEngine.ExpansionSets.YugiohVol1 or {}
 
 hook.Add(
-	"CardEngineInitializeExpansionPacks",
-	"CardEngine.YugiohVol1.InitializeExpansionPack",
+	"CardEngineInitializeExpansionSets",
+	"CardEngine.YugiohVol1.InitializeExpansionSet",
 	function()
 		if (not CardEngine) then
-			ErrorNoHalt("Card Engine not found! Expansion pack 'ce_expansion_yugioh_vol1' will not load.\n")
+			ErrorNoHalt("Card Engine not found! Expansion set 'ce_expansion_yugioh_vol1' will not load.\n")
 			return
 		end
 
@@ -37,7 +37,7 @@ hook.Add(
 		CardEngine.Collection.IncludeDirectory(
 			CardEngine.PathCombine("ce_expansion_yugioh_vol1", "cards/"),
 			nil,
-			-- Automatically inject the ExpansionSet property into all cards loaded from this expansion pack
+			-- Automatically inject the ExpansionSet property into all cards loaded from this expansion set
 			function(fileName, cardFilePath)
 				CARD.ExpansionSet = EXPANSION_SET_ID
 			end
