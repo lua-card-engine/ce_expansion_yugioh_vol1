@@ -8,15 +8,15 @@ This repository contains the Yu-Gi-Oh Vol 1 Base Expansion Set for the yet to be
 
 ## 🚀 Usage
 
-To use this expansion set in your Garry's Mod server, follow these steps:
+1. Ensure CardEngine is already installed on your Garry's Mod server.
 
-1. Ensure CardEngine is installed on your Garry's Mod server.
+2. [Download](https://github.com/lua-card-engine/ce_expansion_yugioh_vol1/archive/refs/heads/main.zip) this repository to your local machine.
 
-2. Download or clone this repository to your local machine into a `ce_expansion_yugioh_vol1` folder.
+3. Extract the downloaded zip file into the `garrysmod/addons/` directory of your Garry's Mod installation.
 
-3. Copy that entire `ce_expansion_yugioh_vol1` folder into the `addons/` directory of your Garry's Mod installation.
+4. (Optional) After downloading from git the folder will be named `ce_expansion_yugioh_vol1-main`. Rename it to `ce_expansion_yugioh_vol1`, which is a cleaner name.
 
-4. After the above steps, the folder structure should look like this:
+5. After the above steps, the folder structure should look like this:
 
     ```plaintext
     garrysmod/
